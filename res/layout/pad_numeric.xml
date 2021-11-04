@@ -25,7 +25,7 @@
     <com.android.calculator2.view.SquareButton
         android:id="@+id/clr"
         style="@style/PadButtonStyle.Numeric.Operator"
-        android:background="@drawable/pad_button_number_background_selector"
+        android:background="@drawable/pad_button_operator_background_selector"
         android:contentDescription="@string/desc_clr"
         android:text="@string/op_c"
         app:layout_column="0"
@@ -34,7 +34,7 @@
     <com.android.calculator2.view.SquareButton
         android:id="@+id/op_pct"
         style="@style/PadButtonStyle.Numeric.Operator"
-        android:background="@drawable/pad_button_number_background_selector"
+        android:background="@drawable/pad_button_operator_background_selector"
         android:contentDescription="@string/op_pct"
         android:text="@string/op_pct"
         app:layout_column="1"
@@ -43,7 +43,7 @@
     <ImageButton
         android:id="@+id/del"
         style="@style/PadButtonStyle.Numeric.Operator"
-        android:background="@drawable/pad_button_number_background_selector"
+        android:background="@drawable/pad_button_operator_background_selector"
         android:contentDescription="@string/desc_del"
         android:src="@drawable/ic_cal_delete"
         app:layout_column="2"

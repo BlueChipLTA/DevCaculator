@@ -220,8 +220,6 @@ public class HistoryFragment extends Fragment implements DragLayout.DragCallback
         mDragController.setDisplayResult(
                 getActivity().findViewById(R.id.result));
         mDragController.setToolbar(getActivity().findViewById(R.id.toolbar));
-        mDragController.setDragHistory(
-                getActivity().findViewById(R.id.drag_history));
         mDragController.setEvaluator(mEvaluator);
         mDragController.initializeController(isResult, isOneLine, isDisplayEmpty);
     }

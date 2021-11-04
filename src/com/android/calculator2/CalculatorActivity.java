@@ -102,8 +102,7 @@ import static com.android.calculator2.view.CalculatorFormula.OnFormulaContextMen
 
 public class CalculatorActivity extends Activity
         implements OnTextSizeChangeListener, OnLongClickListener,
-        AlertDialogFragment.OnClickListener, Evaluator.EvaluationListener /* for main result */,
-        DragLayout.CloseCallback, DragLayout.DragCallback, WallpaperColorInfo.OnChangeListener {
+        AlertDialogFragment.OnClickListener, Evaluator.EvaluationListener /* for main result */,WallpaperColorInfo.OnChangeListener {
 
     private static final String TAG = "Calculator";
     /**
@@ -491,13 +490,6 @@ public class CalculatorActivity extends Activity
         mFormulaText.setEvaluator(mEvaluator);
         llPadAdvanced1x5 = findViewById(R.id.ll_pad_advanced_1x5);
         glPadAdvanced5x2 = findViewById(R.id.pad_advanced);
-        mSwitchModeButton = findViewById(R.id.sb_switch_mode);
-        mSwitchModeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switchCalculationMode();
-            }
-        });
         isPortaint = false;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             updateCalculationMode();
@@ -505,41 +497,8 @@ public class CalculatorActivity extends Activity
         }
         KeyMaps.setActivity(this);
 
-        mPadViewPager = findViewById(R.id.pad_pager);
-        if (mPadViewPager != null) {
-            mPadViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset,
-                                           int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    if (mDragState != null) {
-                        mDragState.setSelected(!mDragState.isSelected());
-                    }
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-        }
         mDeleteButton = findViewById(R.id.del);
         mClearButton = findViewById(R.id.clr);
-        mDragState = findViewById(R.id.drag_state);
-        if (mDragState != null) {
-            mDragState.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mPadViewPager != null && mPadViewPager.getCurrentItem() != 0) {
-                        mPadViewPager.setCurrentItem(0, true);
-                    }
-                }
-            });
-        }
         final View numberPad = findViewById(R.id.pad_numeric);
         mEqualButton = numberPad.findViewById(R.id.eq);
         if (mEqualButton == null || mEqualButton.getVisibility() != View.VISIBLE) {
@@ -567,20 +526,6 @@ public class CalculatorActivity extends Activity
                 findViewById(R.id.fun_exp),
                 findViewById(R.id.fun_10pow),
         };
-
-        mDragLayout = findViewById(R.id.drag_layout);
-        mDragLayout.removeDragCallback(this);
-        mDragLayout.addDragCallback(this);
-        mDragLayout.setCloseCallback(this);
-        mDragHistory = findViewById(R.id.drag_history);
-        if (mDragHistory != null) {
-            mDragHistory.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showHistoryFragment();
-                }
-            });
-        }
 
         mFormulaText.setOnContextMenuClickListener(mOnFormulaContextMenuClickListener);
         mFormulaText.setOnDisplayMemoryOperationsListener(mOnDisplayMemoryOperationsListener);
@@ -615,14 +560,6 @@ public class CalculatorActivity extends Activity
         if (mDisplayView.isToolbarVisible()) {
             showAndMaybeHideToolbar();
         }
-        // If HistoryFragment is showing, hide the main CalculatorActivity elements from accessibility.
-        // This is because Talkback does not use visibility as a cue for RelativeLayout elements,
-        // and RelativeLayout is the base class of DragLayout.
-        // If we did not do this, it would be possible to traverse to main CalculatorActivity elements from
-        // HistoryFragment.
-        mMainCalculator.setImportantForAccessibility(
-                mDragLayout.isOpen() ? View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
-                        : View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
     }
 
     @Override
@@ -748,7 +685,6 @@ public class CalculatorActivity extends Activity
 
     @Override
     protected void onDestroy() {
-        mDragLayout.removeDragCallback(this);
         if (!isQAndAbove()) {
             WallpaperColorInfo wallpaperColorInfo = WallpaperColorInfo.getInstance(this);
             wallpaperColorInfo.removeOnChangeListener(this);
@@ -792,40 +728,10 @@ public class CalculatorActivity extends Activity
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent e) {
-        if (e.getActionMasked() == MotionEvent.ACTION_DOWN) {
-            // stopActionModeOrContextMenu();
-
-            final HistoryFragment historyFragment = getHistoryFragment();
-            if (mDragLayout.isOpen() && historyFragment != null) {
-                historyFragment.stopActionModeOrContextMenu();
-            }
-        }
-        return super.dispatchTouchEvent(e);
-    }
-
-    @Override
     public void onBackPressed() {
-        if (!stopActionModeOrContextMenu()) {
-            final HistoryFragment historyFragment = getHistoryFragment();
-            if (mDragLayout.isOpen() && historyFragment != null) {
-                if (!historyFragment.stopActionModeOrContextMenu()) {
-                    if (mDragLayout != null) {
-                        mDragLayout.setClosed(true);
-                    }
-                    removeHistoryFragment();
-                }
-                return;
-            }
-            if (mPadViewPager != null && mPadViewPager.getCurrentItem() != 0) {
-                // Select the previous pad.
-                mPadViewPager.setCurrentItem(mPadViewPager.getCurrentItem() - 1);
-            } else {
-                // If the user is currently looking at the first pad (or the pad is not paged),
-                // allow the system to handle the Back button.
-                super.onBackPressed();
-            }
-        }
+        // If the user is currently looking at the first pad (or the pad is not paged),
+        // allow the system to handle the Back button.
+        super.onBackPressed();
     }
 
     @Override
@@ -1622,59 +1528,15 @@ public class CalculatorActivity extends Activity
     }
 
     private void updateCalculationMode() {
-        mSwitchModeButton.setVisibility(View.VISIBLE);
         if (mCalculatorMode == Const.CALCULATION_LITE) {
-            mSwitchModeButton.setContentDescription(getString(R.string.menu_full_mode));
             llPadAdvanced1x5.setVisibility(View.GONE);
             glPadAdvanced5x2.setVisibility(View.GONE);
         } else {
-            mSwitchModeButton.setContentDescription(getString(R.string.menu_lite_mode));
             llPadAdvanced1x5.setVisibility(View.VISIBLE);
             glPadAdvanced5x2.setVisibility(View.VISIBLE);
         }
     }
 
-    /* Begin override CloseCallback method. */
-
-    @Override
-    public void onClose() {
-        removeHistoryFragment();
-    }
-
-    /* End override CloseCallback method. */
-
-    /* Begin override DragCallback methods */
-
-    public void onStartDraggingOpen() {
-        mDisplayView.hideToolbar();
-        showHistoryFragment();
-    }
-
-    @Override
-    public void onInstanceStateRestored(boolean isOpen) {
-    }
-
-    @Override
-    public void whileDragging(float yFraction) {
-    }
-
-    @Override
-    public boolean shouldCaptureView(View view, int x, int y) {
-        return view.getId() == R.id.history_frame
-                && (mDragLayout.isMoving() || mDragLayout.isViewUnder(view, x, y));
-    }
-
-    @Override
-    public int getDisplayHeight() {
-        return mDisplayView.getMeasuredHeight();
-    }
-
-    /* End override DragCallback methods */
-
-    /**
-     * Change evaluation state to one that's friendly to the history fragment.
-     * Return false if that was not easily possible.
-     */
     private boolean prepareForHistory() {
         if (mCurrentState == CalculatorState.ANIMATE) {
             // End the current animation and signal that preparation has failed.
@@ -2152,6 +2014,7 @@ public class CalculatorActivity extends Activity
 
     public interface OnDisplayMemoryOperationsListener {
         boolean shouldDisplayMemory();
+
     }
 
     public boolean isQAndAbove() {

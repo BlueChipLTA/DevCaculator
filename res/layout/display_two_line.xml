@@ -27,6 +27,7 @@
         android:id="@+id/formula_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
         android:overScrollMode="never"
         android:scrollbars="none">
 
@@ -49,16 +50,5 @@
         android:bufferType="spannable"
         android:singleLine="true"
         android:textColor="?att_display_result_text_color" />
-
-    <ImageView
-        android:id="@+id/drag_history"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/drag_history_height"
-        android:layout_gravity="center_horizontal"
-        android:paddingLeft="@dimen/drag_history_padding_horizontal"
-        android:contentDescription="@string/menu_history"
-        android:paddingRight="@dimen/drag_history_padding_horizontal"
-        android:layout_marginBottom="@dimen/drag_history_padding_bottom"
-        android:src="@drawable/ic_drag_arrow" />
 
 </com.android.calculator2.view.CalculatorDisplay>
