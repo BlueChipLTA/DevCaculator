@@ -145,49 +145,13 @@
         <!--<item name="android:padding">@dimen/circle_button_padding</item>-->
     </style>
 
-    <style name="PadButtonStyle.Advanced">
-        <item name="android:background">@drawable/pad_button_advanced_background</item>
-        <item name="android:textColor">?att_pad_button_advanced_text_color</item>
-        <item name="android:textSize">14dip</item>
-    </style>
-
-    <style name="PadButtonStyle.Advanced.Text">
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textSize">12dip</item>
-    </style>
-
-    <style name="PadButtonStyle.Numeric">
-        <item name="android:textSize">16dip</item>
-    </style>
-
-    <style name="PadButtonStyle.Numeric.Equals">
-        <item name="android:visibility">visible</item>
-    </style>
-
-    <style name="PadButtonStyle.Operator">
-        <item name="android:textSize">14dip</item>
-    </style>
-
     <style name="PadButtonStyle.Numeric.Operator">
         <item name="android:textColor">?att_pad_operator_text_color</item>
-    </style>
-
-    <style name="PadButtonStyle.Operator.Text">
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textSize">12dip</item>
     </style>
 
     <style name="PadLayoutStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-    </style>
-
-    <style name="PadLayoutStyle.Advanced">
-        <item name="android:elevation">4dip</item>
-        <item name="android:paddingTop">2dip</item>
-        <item name="android:paddingBottom">8dip</item>
-        <item name="android:paddingStart">18dip</item>
-        <item name="android:paddingEnd">18dip</item>
     </style>
 
     <style name="PadLayoutStyle.Numeric">
@@ -213,5 +177,41 @@
         <item name="android:colorControlNormal">?attr/toolbar_text_color</item>
         <item name="android:colorControlHighlight">?attr/toolbar_text_color</item>
         <item name="android:titleTextColor">?attr/toolbar_text_color</item>
+    </style>
+
+    <style name="PadButtonStyle.Advanced">
+        <item name="android:background">@drawable/pad_button_advanced_background</item>
+        <item name="android:textColor">?att_pad_button_advanced_text_color</item>
+        <item name="android:textSize">20dip</item>
+    </style>
+
+    <style name="PadButtonStyle.Advanced.Text">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">17dip</item>
+    </style>
+
+    <style name="PadButtonStyle.Numeric">
+        <item name="android:textSize">32dip</item>
+    </style>
+
+    <style name="PadButtonStyle.Numeric.Equals">
+        <item name="android:visibility">visible</item>
+    </style>
+
+    <style name="PadButtonStyle.Operator">
+        <item name="android:textSize">23dip</item>
+    </style>
+
+    <style name="PadButtonStyle.Operator.Text">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">17dip</item>
+    </style>
+
+    <style name="PadLayoutStyle.Advanced">
+        <item name="android:elevation">4dip</item>
+        <item name="android:paddingTop">12dip</item>
+        <item name="android:paddingBottom">20dip</item>
+        <item name="android:paddingStart">18dip</item>
+        <item name="android:paddingEnd">18dip</item>
     </style>
 </resources>
