@@ -159,15 +159,6 @@
         app:layout_column="3"
         app:layout_row="3" />
 
-    <ImageButton
-        android:id="@+id/sb_switch_mode"
-        style="@style/PadButtonStyle.Numeric"
-        android:background="@drawable/pad_button_number_background_selector"
-        android:contentDescription="@string/menu_full_mode"
-        android:src="@drawable/ic_switchapp_icon"
-        app:layout_column="0"
-        app:layout_row="4" />
-
     <com.android.calculator2.view.SquareButton
         android:id="@+id/digit_0"
         style="@style/PadButtonStyle.Numeric"
